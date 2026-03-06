@@ -1,10 +1,9 @@
-import { SQSHandler } from 'aws-lambda';
+import { SQSHandler, SQSBatchResponse } from 'aws-lambda';
 import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { getLogger } from '/opt/nodejs/utils/logger';
-import { createErrorResponse } from '/opt/nodejs/utils/response';
-import { SQSMessage } from 'aws-lambda/trigger/sqs';
+import { getLogger } from '../../layers/common/nodejs/utils/logger';
+import { createErrorResponse } from '../../layers/common/nodejs/utils/response';
 
 const logger = getLogger('pdf-upload-handler');
 
@@ -27,8 +26,10 @@ interface S3EventRecord {
   };
 }
 
-export const handler: SQSHandler = async (event) => {
+export const handler: SQSHandler = async (event): Promise<SQSBatchResponse | void> => {
   logger.info('PDF upload handler invoked', { recordCount: event.Records.length });
+
+  const batchItemFailures: Array<{ itemId: string }> = [];
 
   for (const record of event.Records) {
     const requestId = record.messageId;
@@ -49,7 +50,7 @@ export const handler: SQSHandler = async (event) => {
         // Expected format: institutes/{instituteId}/books/{bookId}/{filename}
         const keyParts = s3Key.split('/');
         if (keyParts.length < 5) {
-          logger.error('Invalid S3 key format', { s3Key });
+          logger.error('Invalid S3 key format', new Error('Invalid key format'), { s3Key });
           continue;
         }
 
@@ -78,12 +79,14 @@ export const handler: SQSHandler = async (event) => {
       }
     } catch (error) {
       logger.error('Error processing record', error as Error, { requestId });
-      // Continue processing other records even if one fails
+      batchItemFailures.push({ itemId: record.messageId });
     }
   }
 
   logger.info('PDF upload handler completed');
-  return { statusCode: 200, body: 'Success' };
+  return {
+    batchItemFailures,
+  };
 };
 
 export default handler;

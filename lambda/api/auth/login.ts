@@ -2,10 +2,10 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda
 import { CognitoIdentityProviderClient, InitiateAuthCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
-import { getLogger } from '/opt/nodejs/utils/logger';
-import { AuthenticationError, ValidationError } from '/opt/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '/opt/nodejs/utils/response';
-import { validateBody } from '/opt/nodejs/utils/validation';
+import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
+import { AuthenticationError, ValidationError } from '../../../../layers/common/nodejs/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
+import { validateBody } from '../../../../layers/common/nodejs/utils/validation';
 import { z } from 'zod';
 
 // Validation schema

@@ -3,12 +3,12 @@ import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminGetUserComm
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import { getLogger } from '/opt/nodejs/utils/logger';
-import { ValidationError, ConflictError, AuthorizationError, ExternalServiceError } from '/opt/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse, createCreatedResponse } from '/opt/nodejs/utils/response';
-import { validateBody, validatePath } from '/opt/nodejs/utils/validation';
-import { authenticate } from '/opt/nodejs/middleware/auth';
-import { adminOnly } from '/opt/nodejs/middleware/rbac';
+import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
+import { ValidationError, ConflictError, AuthorizationError, ExternalServiceError } from '../../../../layers/common/nodejs/utils/errors';
+import { createSuccessResponse, createErrorResponse, createCreatedResponse } from '../../../../layers/common/nodejs/utils/response';
+import { validateBody, validatePath } from '../../../../layers/common/nodejs/utils/validation';
+import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
+import { adminOnly } from '../../../../layers/common/nodejs/middleware/rbac';
 import { z } from 'zod';
 
 // Validation schema

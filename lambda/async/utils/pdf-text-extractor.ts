@@ -10,7 +10,7 @@
 
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
-import { getLogger } from '/opt/nodejs/utils/logger';
+import { getLogger } from '../../layers/common/nodejs/utils/logger';
 
 const logger = getLogger('pdf-text-extractor');
 

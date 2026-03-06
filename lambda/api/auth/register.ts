@@ -3,10 +3,10 @@ import { CognitoIdentityProviderClient, SignUpCommand, AdminGetUserCommand } fro
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import { getLogger } from '/opt/nodejs/utils/logger';
-import { ValidationError, ConflictError, ExternalServiceError } from '/opt/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '/opt/nodejs/utils/response';
-import { validateBody } from '/opt/nodejs/utils/validation';
+import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
+import { ValidationError, ConflictError, ExternalServiceError } from '../../../../layers/common/nodejs/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
+import { validateBody } from '../../../../layers/common/nodejs/utils/validation';
 import { z } from 'zod';
 
 // Validation schema

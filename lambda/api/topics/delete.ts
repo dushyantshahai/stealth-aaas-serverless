@@ -1,10 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { DynamoDBDocumentClient, DeleteCommand, GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { getLogger } from '/opt/nodejs/utils/logger';
-import { AuthorizationError, NotFoundError, ValidationError } from '/opt/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '/opt/nodejs/utils/response';
-import { authenticate } from '/opt/nodejs/middleware/auth';
+import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
+import { AuthorizationError, NotFoundError, ValidationError } from '../../../../layers/common/nodejs/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
+import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
 
 const logger = getLogger('topics-delete');
 

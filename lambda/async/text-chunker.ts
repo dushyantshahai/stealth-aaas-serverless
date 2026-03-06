@@ -8,9 +8,9 @@
  */
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, QueryCommand, BatchWriteCommand } from '@aws-sdk/lib-dynamodb';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
-import { getLogger } from '/opt/nodejs/utils/logger';
+import { getLogger } from '../layers/common/nodejs/utils/logger';
 import { v4 as uuidv4 } from 'uuid';
 import { extractTextFromPages } from './utils/pdf-text-extractor';
 

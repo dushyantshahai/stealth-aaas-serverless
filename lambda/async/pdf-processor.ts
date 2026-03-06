@@ -10,12 +10,12 @@
  * 6. Update book status
  */
 
-import { SQSHandler } from 'aws-lambda';
+import { SQSHandler, SQSBatchResponse } from 'aws-lambda';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { SQSClient, SendMessageCommand, DeleteMessageCommand } from '@aws-sdk/client-sqs';
-import { getLogger } from '/opt/nodejs/utils/logger';
+import { getLogger } from '../layers/common/nodejs/utils/logger';
 import { extractPdfText, extractTextFromPages } from './utils/pdf-text-extractor';
 import { extractToc } from './toc-extractor';
 import { createPageAwareChunks } from './text-chunker';
@@ -173,10 +173,11 @@ async function processPdf(
 /**
  * SQS handler for PDF processing queue
  */
-export const handler: SQSHandler = async (event) => {
+export const handler: SQSHandler = async (event): Promise<SQSBatchResponse | void> => {
   logger.info('PDF processor invoked', { recordCount: event.Records.length });
 
   const results: ProcessingResult[] = [];
+  const batchItemFailures: Array<{ itemId: string }> = [];
 
   for (const record of event.Records) {
     const requestId = record.messageId;
@@ -196,7 +197,7 @@ export const handler: SQSHandler = async (event) => {
         // Expected format: institutes/{instituteId}/books/{bookId}/{filename}
         const keyParts = s3Key.split('/');
         if (keyParts.length < 5) {
-          logger.error('Invalid S3 key format', { s3Key });
+          logger.error('Invalid S3 key format', new Error('Invalid S3 key'), { s3Key });
           continue;
         }
 
@@ -214,17 +215,14 @@ export const handler: SQSHandler = async (event) => {
       }
     } catch (error) {
       logger.error('Error processing record', error as Error, { requestId });
+      batchItemFailures.push({ itemId: record.messageId });
     }
   }
 
   logger.info('PDF processor completed', { processedCount: results.length });
 
   return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Processing complete',
-      results: results,
-    }),
+    batchItemFailures,
   };
 };
 

@@ -1,10 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, QueryCommand as DocQueryCommand } from '@aws-sdk/lib-dynamodb';
-import { getLogger } from '/opt/nodejs/utils/logger';
-import { ValidationError } from '/opt/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '/opt/nodejs/utils/response';
-import { authenticate } from '/opt/nodejs/middleware/auth';
+import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
+import { ValidationError } from '../../../../layers/common/nodejs/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
+import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
 import { z } from 'zod';
 
 const logger = getLogger('subjects-list');

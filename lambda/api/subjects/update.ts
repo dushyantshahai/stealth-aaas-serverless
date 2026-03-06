@@ -1,11 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
-import { getLogger } from '/opt/nodejs/utils/logger';
-import { ValidationError, NotFoundError, AuthorizationError } from '/opt/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '/opt/nodejs/utils/response';
-import { authenticate } from '/opt/nodejs/middleware/auth';
-import { validateBody, validatePath } from '/opt/nodejs/utils/validation';
+import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
+import { ValidationError, NotFoundError, AuthorizationError } from '../../../../layers/common/nodejs/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
+import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
+import { validateBody, validatePath } from '../../../../layers/common/nodejs/utils/validation';
 import { z } from 'zod';
 
 const logger = getLogger('subjects-update');
