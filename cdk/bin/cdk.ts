@@ -56,7 +56,7 @@ const apiStack = new ApiStack(app, config.projectName + '-' + stage + '-api', {
 const kbStack = new BedrockKnowledgeBaseStack(app, config.projectName + '-' + stage + '-kb', {
   environment: stage as 'dev' | 'staging' | 'prod',
   pdfBucketName: storageStack.pdfBucket.bucketName,
-  accountId: cdk.Stack.of(app).account || '',
+  accountId: config.account,
   description: 'Bedrock Knowledge Base for RAG',
 });
 

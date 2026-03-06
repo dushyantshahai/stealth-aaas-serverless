@@ -814,12 +814,6 @@ export class FunctionsStack extends BaseStack {
       value: this.deleteSubtopicFunction.functionArn,
       exportName: this.naming.resourceName('export', 'delete-subtopic-function-arn'),
     });
-  }
-}
-    new cdk.CfnOutput(this, 'DeleteSubtopicFunctionArn', {
-      value: this.deleteSubtopicFunction.functionArn,
-      exportName: this.naming.resourceName('export', 'delete-subtopic-function-arn'),
-    });
 
     // PDF upload handler Lambda function
     this.pdfUploadHandlerFunction = new lambda.Function(this, 'PdfUploadHandlerFunction', {

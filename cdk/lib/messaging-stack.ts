@@ -36,7 +36,7 @@ export class MessagingStack extends BaseStack {
     
     new cdk.CfnOutput(this, 'McqGenerationQueueUrl', {
       value: this.mcqGenerationQueue.queueUrl,
-      exportName: this.naming.resourceName('export', 'mcq-queue-url'),
+      exportName: this.naming.resourceName('export', 'mcq-generation-queue-url'),
     });
     
     new cdk.CfnOutput(this, 'AnalyticsAggregationQueueUrl', {
