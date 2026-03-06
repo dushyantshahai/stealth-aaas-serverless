@@ -7,6 +7,7 @@ import { MessagingStack } from '../lib/messaging-stack';
 import { LayersStack } from '../lib/layers-stack';
 import { ApiStack } from '../lib/api-stack';
 import { FunctionsStack } from '../lib/functions-stack';
+import { BedrockKnowledgeBaseStack } from '../lib/bedrock-knowledge-base-stack';
 
 const app = new cdk.App();
 
@@ -49,6 +50,14 @@ const apiStack = new ApiStack(app, config.projectName + '-' + stage + '-api', {
   config,
   functionsStack,
   description: 'API Gateway and Lambda functions',
+});
+
+// Bedrock Knowledge Base Stack
+const kbStack = new BedrockKnowledgeBaseStack(app, config.projectName + '-' + stage + '-kb', {
+  environment: stage as 'dev' | 'staging' | 'prod',
+  pdfBucketName: storageStack.pdfBucket.bucketName,
+  accountId: cdk.Stack.of(app).account || '',
+  description: 'Bedrock Knowledge Base for RAG',
 });
 
 app.synth();
