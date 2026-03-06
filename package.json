@@ -1,0 +1,54 @@
+{
+  "name": "stealth-aaas-serverless",
+  "version": "1.0.0",
+  "description": "Complete migration of the Stealth AaaS (Assessment as a Service) platform from Express.js/PostgreSQL to AWS serverless architecture.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,json,md}\"",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "cdk": "cdk"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1002.0",
+    "@aws-sdk/client-cloudwatch": "^3.1002.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1002.0",
+    "@aws-sdk/client-dynamodb": "^3.1002.0",
+    "@aws-sdk/client-lambda": "^3.1002.0",
+    "@aws-sdk/client-s3": "^3.1002.0",
+    "@aws-sdk/client-secrets-manager": "^3.1002.0",
+    "@aws-sdk/client-sqs": "^3.1002.0",
+    "@aws-sdk/client-textract": "^3.1002.0",
+    "@aws-sdk/lib-dynamodb": "^3.1002.0",
+    "aws-cdk-lib": "^2.241.0",
+    "constructs": "^10.5.1",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.3.1",
+    "uuid": "^13.0.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.3.5",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "eslint": "^10.0.2",
+    "jest": "^30.2.0",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6"
+  }
+}

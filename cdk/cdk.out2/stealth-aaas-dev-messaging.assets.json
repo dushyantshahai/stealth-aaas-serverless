@@ -1,0 +1,21 @@
+{
+  "version": "52.0.0",
+  "files": {
+    "2fcd5cbeb88cb07f1b1b639e58af3f91758dfbcc78a6edc73699d24bde51f2db": {
+      "displayName": "stealth-aaas-dev-messaging Template",
+      "source": {
+        "path": "stealth-aaas-dev-messaging.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "637404140637-us-east-1-b987850a": {
+          "bucketName": "cdk-hnb659fds-assets-637404140637-us-east-1",
+          "objectKey": "2fcd5cbeb88cb07f1b1b639e58af3f91758dfbcc78a6edc73699d24bde51f2db.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::637404140637:role/cdk-hnb659fds-file-publishing-role-637404140637-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

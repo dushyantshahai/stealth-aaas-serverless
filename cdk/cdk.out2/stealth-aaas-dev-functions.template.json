@@ -1,0 +1,3176 @@
+{
+ "Description": "Lambda functions for API endpoints",
+ "Resources": {
+  "RegisterFunctionServiceRoleDB8F6C89": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/RegisterFunction/ServiceRole/Resource"
+   }
+  },
+  "RegisterFunction735506DF": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3.zip"
+    },
+    "Description": "User registration Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "COGNITO_USER_POOL_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-id"
+      },
+      "COGNITO_CLIENT_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-client-id"
+      },
+      "DYNAMODB_TABLE_PREFIX": "stealth-aaas-dev"
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-auth-register",
+    "Handler": "register.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "RegisterFunctionServiceRoleDB8F6C89",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "RegisterFunctionServiceRoleDB8F6C89"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/RegisterFunction/Resource",
+    "aws:asset:path": "asset.d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "RegisterFunctionLogGroup4E3DE60B": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "RegisterFunction735506DF"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/RegisterFunction/LogGroup/Resource"
+   }
+  },
+  "LoginFunctionServiceRole74B42ABA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/LoginFunction/ServiceRole/Resource"
+   }
+  },
+  "LoginFunction66F090C6": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3.zip"
+    },
+    "Description": "User login Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "COGNITO_USER_POOL_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-id"
+      },
+      "COGNITO_CLIENT_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-client-id"
+      },
+      "DYNAMODB_TABLE_PREFIX": "stealth-aaas-dev"
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-auth-login",
+    "Handler": "login.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "LoginFunctionServiceRole74B42ABA",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "LoginFunctionServiceRole74B42ABA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/LoginFunction/Resource",
+    "aws:asset:path": "asset.d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "LoginFunctionLogGroupB4EA2B89": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "LoginFunction66F090C6"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/LoginFunction/LogGroup/Resource"
+   }
+  },
+  "RefreshFunctionServiceRole2C0CC72C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/RefreshFunction/ServiceRole/Resource"
+   }
+  },
+  "RefreshFunction848BF7AF": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3.zip"
+    },
+    "Description": "Token refresh Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "COGNITO_CLIENT_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-client-id"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-auth-refresh",
+    "Handler": "refresh.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "RefreshFunctionServiceRole2C0CC72C",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "RefreshFunctionServiceRole2C0CC72C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/RefreshFunction/Resource",
+    "aws:asset:path": "asset.d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "RefreshFunctionLogGroupF8A39AF7": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "RefreshFunction848BF7AF"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/RefreshFunction/LogGroup/Resource"
+   }
+  },
+  "ResetPasswordFunctionServiceRoleAE5DF4BC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ResetPasswordFunction/ServiceRole/Resource"
+   }
+  },
+  "ResetPasswordFunction6786158F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3.zip"
+    },
+    "Description": "Password reset Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "COGNITO_CLIENT_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-client-id"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-auth-reset-password",
+    "Handler": "reset-password.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ResetPasswordFunctionServiceRoleAE5DF4BC",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ResetPasswordFunctionServiceRoleAE5DF4BC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ResetPasswordFunction/Resource",
+    "aws:asset:path": "asset.d97411c26533ecf25d2807b69392369d2f52f283fd04231e54d78180020dccc3",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ResetPasswordFunctionLogGroup741969D2": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ResetPasswordFunction6786158F"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ResetPasswordFunction/LogGroup/Resource"
+   }
+  },
+  "CreateUserFunctionServiceRole56357EFD": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateUserFunction/ServiceRole/Resource"
+   }
+  },
+  "CreateUserFunctionB24ECABE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975.zip"
+    },
+    "Description": "Create user Lambda (Admin only)",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "COGNITO_USER_POOL_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-id"
+      },
+      "USERS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-users-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-users-create",
+    "Handler": "create.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "CreateUserFunctionServiceRole56357EFD",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CreateUserFunctionServiceRole56357EFD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateUserFunction/Resource",
+    "aws:asset:path": "asset.a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CreateUserFunctionLogGroupDC161A10": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CreateUserFunctionB24ECABE"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateUserFunction/LogGroup/Resource"
+   }
+  },
+  "ListUsersFunctionServiceRole87680CE3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListUsersFunction/ServiceRole/Resource"
+   }
+  },
+  "ListUsersFunction0CE11513": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975.zip"
+    },
+    "Description": "List users Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "USERS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-users-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-users-list",
+    "Handler": "list.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListUsersFunctionServiceRole87680CE3",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListUsersFunctionServiceRole87680CE3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListUsersFunction/Resource",
+    "aws:asset:path": "asset.a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListUsersFunctionLogGroup99C60586": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListUsersFunction0CE11513"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListUsersFunction/LogGroup/Resource"
+   }
+  },
+  "GetUserFunctionServiceRoleD5E35BD9": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetUserFunction/ServiceRole/Resource"
+   }
+  },
+  "GetUserFunctionD3D353B4": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975.zip"
+    },
+    "Description": "Get user Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "USERS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-users-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-users-get",
+    "Handler": "get.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetUserFunctionServiceRoleD5E35BD9",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetUserFunctionServiceRoleD5E35BD9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetUserFunction/Resource",
+    "aws:asset:path": "asset.a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetUserFunctionLogGroup9A841D7B": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "GetUserFunctionD3D353B4"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetUserFunction/LogGroup/Resource"
+   }
+  },
+  "UpdateUserFunctionServiceRole3FF85C20": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateUserFunction/ServiceRole/Resource"
+   }
+  },
+  "UpdateUserFunction80F5726A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975.zip"
+    },
+    "Description": "Update user Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "COGNITO_USER_POOL_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-id"
+      },
+      "USERS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-users-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-users-update",
+    "Handler": "update.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "UpdateUserFunctionServiceRole3FF85C20",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "UpdateUserFunctionServiceRole3FF85C20"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateUserFunction/Resource",
+    "aws:asset:path": "asset.a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UpdateUserFunctionLogGroup2748A54A": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UpdateUserFunction80F5726A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateUserFunction/LogGroup/Resource"
+   }
+  },
+  "DeleteUserFunctionServiceRole8312E1E1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteUserFunction/ServiceRole/Resource"
+   }
+  },
+  "DeleteUserFunctionF8A542EC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975.zip"
+    },
+    "Description": "Delete user Lambda (Admin only)",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "COGNITO_USER_POOL_ID": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-user-pool-id"
+      },
+      "USERS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-users-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-users-delete",
+    "Handler": "delete.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "DeleteUserFunctionServiceRole8312E1E1",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "DeleteUserFunctionServiceRole8312E1E1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteUserFunction/Resource",
+    "aws:asset:path": "asset.a3dcc6a705218fc086e105dfe67add232c287039638b562ebf97e27087d26975",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DeleteUserFunctionLogGroup872E187B": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "DeleteUserFunctionF8A542EC"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteUserFunction/LogGroup/Resource"
+   }
+  },
+  "CreateSubjectFunctionServiceRoleBEF85311": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateSubjectFunction/ServiceRole/Resource"
+   }
+  },
+  "CreateSubjectFunction3A5A82EF": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042.zip"
+    },
+    "Description": "Create subject Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "SUBJECTS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-subjects-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-subjects-create",
+    "Handler": "create.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "CreateSubjectFunctionServiceRoleBEF85311",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CreateSubjectFunctionServiceRoleBEF85311"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateSubjectFunction/Resource",
+    "aws:asset:path": "asset.5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CreateSubjectFunctionLogGroup6F4534C4": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CreateSubjectFunction3A5A82EF"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateSubjectFunction/LogGroup/Resource"
+   }
+  },
+  "ListSubjectsFunctionServiceRole733B0339": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListSubjectsFunction/ServiceRole/Resource"
+   }
+  },
+  "ListSubjectsFunction8FD07197": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042.zip"
+    },
+    "Description": "List subjects Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "SUBJECTS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-subjects-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-subjects-list",
+    "Handler": "list.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListSubjectsFunctionServiceRole733B0339",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListSubjectsFunctionServiceRole733B0339"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListSubjectsFunction/Resource",
+    "aws:asset:path": "asset.5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListSubjectsFunctionLogGroup8F241F8E": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListSubjectsFunction8FD07197"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListSubjectsFunction/LogGroup/Resource"
+   }
+  },
+  "GetSubjectFunctionServiceRoleCFEA5DF4": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetSubjectFunction/ServiceRole/Resource"
+   }
+  },
+  "GetSubjectFunction16A50242": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042.zip"
+    },
+    "Description": "Get subject Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "SUBJECTS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-subjects-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-subjects-get",
+    "Handler": "get.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetSubjectFunctionServiceRoleCFEA5DF4",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetSubjectFunctionServiceRoleCFEA5DF4"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetSubjectFunction/Resource",
+    "aws:asset:path": "asset.5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetSubjectFunctionLogGroupC065A77D": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "GetSubjectFunction16A50242"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetSubjectFunction/LogGroup/Resource"
+   }
+  },
+  "UpdateSubjectFunctionServiceRoleEA623FC2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateSubjectFunction/ServiceRole/Resource"
+   }
+  },
+  "UpdateSubjectFunctionC9910E6F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042.zip"
+    },
+    "Description": "Update subject Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "SUBJECTS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-subjects-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-subjects-update",
+    "Handler": "update.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "UpdateSubjectFunctionServiceRoleEA623FC2",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "UpdateSubjectFunctionServiceRoleEA623FC2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateSubjectFunction/Resource",
+    "aws:asset:path": "asset.5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UpdateSubjectFunctionLogGroup37A27AB1": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UpdateSubjectFunctionC9910E6F"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateSubjectFunction/LogGroup/Resource"
+   }
+  },
+  "DeleteSubjectFunctionServiceRoleE3A6D171": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteSubjectFunction/ServiceRole/Resource"
+   }
+  },
+  "DeleteSubjectFunctionF3D30E41": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042.zip"
+    },
+    "Description": "Delete subject Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "SUBJECTS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-subjects-table-name"
+      },
+      "BOOKS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-books-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-subjects-delete",
+    "Handler": "delete.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "DeleteSubjectFunctionServiceRoleE3A6D171",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "DeleteSubjectFunctionServiceRoleE3A6D171"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteSubjectFunction/Resource",
+    "aws:asset:path": "asset.5134c88667e66f5784c35d7f075a34a4e9c20db14c807ad5c9385d152ef5c042",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DeleteSubjectFunctionLogGroup838809CA": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "DeleteSubjectFunctionF3D30E41"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteSubjectFunction/LogGroup/Resource"
+   }
+  },
+  "CreateBookFunctionServiceRoleF8C658FE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateBookFunction/ServiceRole/Resource"
+   }
+  },
+  "CreateBookFunction04490351": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404.zip"
+    },
+    "Description": "Create book Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "BOOKS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-books-table-name"
+      },
+      "SUBJECTS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-subjects-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-books-create",
+    "Handler": "create.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "CreateBookFunctionServiceRoleF8C658FE",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CreateBookFunctionServiceRoleF8C658FE"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateBookFunction/Resource",
+    "aws:asset:path": "asset.44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CreateBookFunctionLogGroup0274C534": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CreateBookFunction04490351"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CreateBookFunction/LogGroup/Resource"
+   }
+  },
+  "ListBooksFunctionServiceRole5D78B6EA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListBooksFunction/ServiceRole/Resource"
+   }
+  },
+  "ListBooksFunction2B703A8F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404.zip"
+    },
+    "Description": "List books Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "BOOKS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-books-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-books-list",
+    "Handler": "list.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListBooksFunctionServiceRole5D78B6EA",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListBooksFunctionServiceRole5D78B6EA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListBooksFunction/Resource",
+    "aws:asset:path": "asset.44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListBooksFunctionLogGroupF82450F6": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ListBooksFunction2B703A8F"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/ListBooksFunction/LogGroup/Resource"
+   }
+  },
+  "GetBookFunctionServiceRole3E013CA6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetBookFunction/ServiceRole/Resource"
+   }
+  },
+  "GetBookFunctionFD8DAB19": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404.zip"
+    },
+    "Description": "Get book Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "BOOKS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-books-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-books-get",
+    "Handler": "get.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetBookFunctionServiceRole3E013CA6",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetBookFunctionServiceRole3E013CA6"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetBookFunction/Resource",
+    "aws:asset:path": "asset.44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetBookFunctionLogGroup93B5D440": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "GetBookFunctionFD8DAB19"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/GetBookFunction/LogGroup/Resource"
+   }
+  },
+  "UpdateBookFunctionServiceRole6C309FEC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateBookFunction/ServiceRole/Resource"
+   }
+  },
+  "UpdateBookFunction594B93E7": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404.zip"
+    },
+    "Description": "Update book Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "BOOKS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-books-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-books-update",
+    "Handler": "update.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "UpdateBookFunctionServiceRole6C309FEC",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "UpdateBookFunctionServiceRole6C309FEC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateBookFunction/Resource",
+    "aws:asset:path": "asset.44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UpdateBookFunctionLogGroup85AF421B": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UpdateBookFunction594B93E7"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UpdateBookFunction/LogGroup/Resource"
+   }
+  },
+  "DeleteBookFunctionServiceRole384BE442": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteBookFunction/ServiceRole/Resource"
+   }
+  },
+  "DeleteBookFunctionE259396A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404.zip"
+    },
+    "Description": "Delete book Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "BOOKS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-books-table-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-books-delete",
+    "Handler": "delete.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "DeleteBookFunctionServiceRole384BE442",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "DeleteBookFunctionServiceRole384BE442"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteBookFunction/Resource",
+    "aws:asset:path": "asset.44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DeleteBookFunctionLogGroup17252419": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "DeleteBookFunctionE259396A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/DeleteBookFunction/LogGroup/Resource"
+   }
+  },
+  "UploadUrlBookFunctionServiceRole1D8983A8": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UploadUrlBookFunction/ServiceRole/Resource"
+   }
+  },
+  "UploadUrlBookFunctionF885FE70": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-637404140637-us-east-1",
+     "S3Key": "44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404.zip"
+    },
+    "Description": "Generate book upload URL Lambda",
+    "Environment": {
+     "Variables": {
+      "STAGE": "dev",
+      "BOOKS_TABLE": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-books-table-name"
+      },
+      "PDF_BUCKET": {
+       "Fn::ImportValue": "stealth-aaas-dev-export-pdf-bucket-name"
+      }
+     }
+    },
+    "FunctionName": "stealth-aaas-dev-lambda-books-upload-url",
+    "Handler": "upload-url.index",
+    "Layers": [
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-common-layer-arn"
+     },
+     {
+      "Fn::ImportValue": "stealth-aaas-dev-export-dependencies-layer-arn"
+     }
+    ],
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "UploadUrlBookFunctionServiceRole1D8983A8",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ],
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "UploadUrlBookFunctionServiceRole1D8983A8"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UploadUrlBookFunction/Resource",
+    "aws:asset:path": "asset.44016d91b2b70a348e72c6d6848bdb551eee951c2740531c58a207784b43b404",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UploadUrlBookFunctionLogGroup038303AE": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UploadUrlBookFunctionF885FE70"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "ManagedBy",
+      "Value": "CDK"
+     },
+     {
+      "Key": "Project",
+      "Value": "stealth-aaas"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/UploadUrlBookFunction/LogGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/+2YTU/jMBCGfws+ItdLW069tauFS8Wu2mOF0GAPwdSxI3+AipX/jpwmFcuNA1LVzsme8WTeeV5frEzE5Hosri7gLYyk2o6MfhR5HUFu+QqDS14ih7fwkA3UjwpEvklWRu3sJrOnfnsHNbIZu2Sc+WSjPkTPYJVB30fSqeHAwA59YLNNF12ye85qrJ3frfX7UFP6uBT7CO2r9s7WaIeMwiC9bsoAXablmYFSfz4XHvr/7OHyK07Jkztn5A4xngbj2RtAjKfBSAacuwHESIzEeDyMZMC5G0CMxEiMx8P4TQPu+e8nO/z+armGWuSVM7jJDEJINarFjs0ya7y2Ujdg5lK6dBh/X1M+mMtPDKwGCxWqf85oqbEo5v9yu7nva/ejkRRJkRRJkRRJkdSJS3VvjtKi5WH6ACFgDGJeFh6mYpHkFuMCAnLjqiDy0lW33qVmk5npt4e3WhmbkseT7K52uLC25d2triNU2lbl6G+KTYott06heAm/XifXYjwVVxcvQetR/+4Wq/36AUap0mXHHQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "stealth-aaas-dev-functions/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "RegisterFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "RegisterFunction735506DF",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-register-function-arn"
+   }
+  },
+  "LoginFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "LoginFunction66F090C6",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-login-function-arn"
+   }
+  },
+  "RefreshFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "RefreshFunction848BF7AF",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-refresh-function-arn"
+   }
+  },
+  "ResetPasswordFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ResetPasswordFunction6786158F",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-reset-password-function-arn"
+   }
+  },
+  "CreateUserFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CreateUserFunctionB24ECABE",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-create-user-function-arn"
+   }
+  },
+  "ListUsersFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListUsersFunction0CE11513",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-list-users-function-arn"
+   }
+  },
+  "GetUserFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetUserFunctionD3D353B4",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-get-user-function-arn"
+   }
+  },
+  "UpdateUserFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UpdateUserFunction80F5726A",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-update-user-function-arn"
+   }
+  },
+  "DeleteUserFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DeleteUserFunctionF8A542EC",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-delete-user-function-arn"
+   }
+  },
+  "CreateSubjectFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CreateSubjectFunction3A5A82EF",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-create-subject-function-arn"
+   }
+  },
+  "ListSubjectsFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListSubjectsFunction8FD07197",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-list-subjects-function-arn"
+   }
+  },
+  "GetSubjectFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetSubjectFunction16A50242",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-get-subject-function-arn"
+   }
+  },
+  "UpdateSubjectFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UpdateSubjectFunctionC9910E6F",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-update-subject-function-arn"
+   }
+  },
+  "DeleteSubjectFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DeleteSubjectFunctionF3D30E41",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-delete-subject-function-arn"
+   }
+  },
+  "CreateBookFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "CreateBookFunction04490351",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-create-book-function-arn"
+   }
+  },
+  "ListBooksFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListBooksFunction2B703A8F",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-list-books-function-arn"
+   }
+  },
+  "GetBookFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetBookFunctionFD8DAB19",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-get-book-function-arn"
+   }
+  },
+  "UpdateBookFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UpdateBookFunction594B93E7",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-update-book-function-arn"
+   }
+  },
+  "DeleteBookFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DeleteBookFunctionE259396A",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-delete-book-function-arn"
+   }
+  },
+  "UploadUrlBookFunctionArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UploadUrlBookFunctionF885FE70",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "stealth-aaas-dev-export-upload-url-book-function-arn"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

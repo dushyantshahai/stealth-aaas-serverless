@@ -1,0 +1,8 @@
+{
+  "stealth-aaas-dev-api": {
+    "ApiKeyId": "7x96t7g4kk",
+    "ApiGatewayEndpoint5AA8EC3A": "https://mf9jsskdmf.execute-api.us-east-1.amazonaws.com/dev/",
+    "ApiEndpoint": "https://mf9jsskdmf.execute-api.us-east-1.amazonaws.com/dev/",
+    "ApiId": "mf9jsskdmf"
+  }
+}
