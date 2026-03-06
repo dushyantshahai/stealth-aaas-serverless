@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { jwtVerify, createRemoteJWKSet } from 'jose';
-import { logger, getLogger } from '../utils/logger';
-import { AuthenticationError, AuthorizationError } from '../utils/errors';
+import { logger, getLogger } from '@common/utils/logger';
+import { AuthenticationError, AuthorizationError } from '@common/utils/errors';
 
 // JWKS for Cognito
 const jwks = createRemoteJWKSet(

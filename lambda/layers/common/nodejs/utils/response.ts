@@ -154,12 +154,4 @@ export function handleResponse(
   return result;
 }
 
-export default {
-  ApiResponse,
-  createSuccessResponse,
-  createErrorResponse,
-  createPaginatedResponse,
-  createCreatedResponse,
-  createNoContentResponse,
-  handleResponse,
-};
+export type { ApiResponse };

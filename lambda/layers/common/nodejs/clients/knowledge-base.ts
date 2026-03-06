@@ -6,7 +6,7 @@
  */
 
 import { BedrockAgentRuntimeClient, RetrieveCommand } from '@aws-sdk/client-bedrock-agent-runtime';
-import { getLogger } from '../utils/logger';
+import { getLogger } from '@common/utils/logger';
 
 const logger = getLogger('knowledge-base-client');
 

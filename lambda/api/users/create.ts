@@ -3,12 +3,12 @@ import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminGetUserComm
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, ConflictError, AuthorizationError, ExternalServiceError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse, createCreatedResponse } from '../../../../layers/common/nodejs/utils/response';
-import { validateBody, validatePath } from '../../../../layers/common/nodejs/utils/validation';
-import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
-import { adminOnly } from '../../../../layers/common/nodejs/middleware/rbac';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, ConflictError, AuthorizationError, ExternalServiceError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse, createCreatedResponse } from '@common/utils/response';
+import { validateBody, validatePath } from '@common/utils/validation';
+import { authenticate } from '@common/middleware/auth';
+import { adminOnly } from '@common/middleware/rbac';
 import { z } from 'zod';
 
 // Validation schema
@@ -47,7 +47,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const requestId = context.requestId;
+  const requestId = context.awsRequestId;
   logger.info('Create user request', { requestId });
 
   try {

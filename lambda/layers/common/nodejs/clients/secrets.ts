@@ -3,8 +3,8 @@ import {
   GetSecretValueCommand,
   PutSecretValueCommand,
 } from '@aws-sdk/client-secrets-manager';
-import { logger } from '../utils/logger';
-import { ExternalServiceError } from '../utils/errors';
+import { logger } from '@common/utils/logger';
+import { ExternalServiceError } from '@common/utils/errors';
 
 /**
  * Secrets Manager client singleton

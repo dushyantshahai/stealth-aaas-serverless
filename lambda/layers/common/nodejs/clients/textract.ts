@@ -6,8 +6,8 @@ import {
   GetDocumentAnalysisCommand,
   FeatureType,
 } from '@aws-sdk/client-textract';
-import { logger } from '../utils/logger';
-import { ExternalServiceError } from '../utils/errors';
+import { logger } from '@common/utils/logger';
+import { ExternalServiceError } from '@common/utils/errors';
 
 /**
  * Textract client singleton

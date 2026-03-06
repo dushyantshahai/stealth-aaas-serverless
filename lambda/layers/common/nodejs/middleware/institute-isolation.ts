@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { AuthorizationError } from '../utils/errors';
+import { AuthorizationError } from '@common/utils/errors';
 
 /**
  * Institute isolation middleware
@@ -96,7 +96,7 @@ export function validateInstituteInRequest(
     throw new AuthorizationError('Institute ID is required');
   }
 
-  return requestInstituteId || user.instituteId;
+  return (requestInstituteId || user.instituteId) as string;
 }
 
 /**

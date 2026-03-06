@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { AuthorizationError } from '../utils/errors';
+import { AuthorizationError } from '@common/utils/errors';
 
 /**
  * User roles hierarchy
@@ -17,21 +17,21 @@ export type UserRole = (typeof ROLES)[keyof typeof ROLES][number];
  */
 export function hasRole(
   userRole: string | undefined,
-  requiredRoles: UserRole[]
+  requiredRoles: (keyof typeof ROLES)[]
 ): boolean {
   if (!userRole) {
     return false;
   }
 
   // Check if user's role is in the required roles list
-  if (requiredRoles.includes(userRole as UserRole)) {
+  if (requiredRoles.includes(userRole as keyof typeof ROLES)) {
     return true;
   }
 
   // Check role hierarchy
   for (const requiredRole of requiredRoles) {
-    const allowedRoles = ROLES[requiredRole as keyof typeof ROLES];
-    if (allowedRoles.includes(userRole as UserRole)) {
+    const allowedRoles = ROLES[requiredRole];
+    if (allowedRoles.includes(userRole as any)) {
       return true;
     }
   }

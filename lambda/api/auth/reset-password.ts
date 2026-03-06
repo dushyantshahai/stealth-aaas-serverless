@@ -1,9 +1,9 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { CognitoIdentityProviderClient, ForgotPasswordCommand } from '@aws-sdk/client-cognito-identity-provider';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, NotFoundError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
-import { validateBody } from '../../../../layers/common/nodejs/utils/validation';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, NotFoundError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '@common/utils/response';
+import { validateBody } from '@common/utils/validation';
 import { z } from 'zod';
 
 // Validation schema
@@ -26,7 +26,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const requestId = context.requestId;
+  const requestId = context.awsRequestId;
   logger.info('Password reset request', { requestId });
 
   try {

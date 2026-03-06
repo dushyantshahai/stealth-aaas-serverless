@@ -8,8 +8,8 @@ import {
   GetQueueAttributesCommand,
 } from '@aws-sdk/client-sqs';
 import { SendMessageCommandInput, ReceiveMessageCommandInput } from '@aws-sdk/client-sqs';
-import { logger } from '../utils/logger';
-import { ExternalServiceError } from '../utils/errors';
+import { logger } from '@common/utils/logger';
+import { ExternalServiceError } from '@common/utils/errors';
 
 /**
  * SQS client singleton
@@ -191,7 +191,7 @@ export async function getQueueAttributes(
     const client = getSQSClient();
     const command = new GetQueueAttributesCommand({
       QueueUrl: queueUrl,
-      AttributeNames: attributeNames,
+      AttributeNames: attributeNames as any,
     });
 
     const result = await client.send(command);

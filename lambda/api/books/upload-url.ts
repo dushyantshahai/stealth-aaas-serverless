@@ -3,11 +3,11 @@ import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, AuthorizationError, NotFoundError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
-import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
-import { validatePath, validateBody } from '../../../../layers/common/nodejs/utils/validation';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, AuthorizationError, NotFoundError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '@common/utils/response';
+import { authenticate } from '@common/middleware/auth';
+import { validatePath, validateBody } from '@common/utils/validation';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 

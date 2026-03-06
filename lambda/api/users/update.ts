@@ -2,11 +2,11 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { CognitoIdentityProviderClient, AdminUpdateUserAttributesCommand } from '@aws-sdk/client-cognito-identity-provider';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, NotFoundError, AuthorizationError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
-import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
-import { validateBody, validatePath } from '../../../../layers/common/nodejs/utils/validation';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, NotFoundError, AuthorizationError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '@common/utils/response';
+import { authenticate } from '@common/middleware/auth';
+import { validateBody, validatePath } from '@common/utils/validation';
 import { z } from 'zod';
 
 const logger = getLogger('users-update');
@@ -36,7 +36,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const requestId = context.requestId;
+  const requestId = context.awsRequestId;
   logger.info('Update user request', { requestId });
 
   try {

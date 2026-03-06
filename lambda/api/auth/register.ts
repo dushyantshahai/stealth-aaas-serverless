@@ -3,10 +3,10 @@ import { CognitoIdentityProviderClient, SignUpCommand, AdminGetUserCommand } fro
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, ConflictError, ExternalServiceError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
-import { validateBody } from '../../../../layers/common/nodejs/utils/validation';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, ConflictError, ExternalServiceError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '@common/utils/response';
+import { validateBody } from '@common/utils/validation';
 import { z } from 'zod';
 
 // Validation schema
@@ -47,7 +47,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const requestId = context.requestId;
+  const requestId = context.awsRequestId;
   logger.info('User registration request', { requestId });
 
   try {

@@ -107,7 +107,7 @@ export function logRequest(
 ): void {
   const logger = getLogger();
   logger.info('Incoming request', {
-    requestId: context.requestId,
+    requestId: context.awsRequestId,
     path: event.path,
     method: event.httpMethod,
     sourceIp: event.requestContext?.identity?.sourceIp,
@@ -136,7 +136,7 @@ export function logError(
 ): void {
   const logger = getLogger();
   logger.error('Error occurred', error, {
-    requestId: context.requestId,
+    requestId: context.awsRequestId,
     ...additionalInfo,
   });
 }

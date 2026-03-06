@@ -9,7 +9,7 @@
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, BatchWriteCommand } from '@aws-sdk/lib-dynamodb';
-import { getLogger } from '../layers/common/nodejs/utils/logger';
+import { getLogger } from '@common/utils/logger';
 import { v4 as uuidv4 } from 'uuid';
 
 const logger = getLogger('toc-extractor');

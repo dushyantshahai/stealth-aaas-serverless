@@ -1,10 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { DynamoDBDocumentClient, QueryCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { AuthorizationError, NotFoundError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
-import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
+import { getLogger } from '@common/utils/logger';
+import { AuthorizationError, NotFoundError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '@common/utils/response';
+import { authenticate } from '@common/middleware/auth';
 
 const logger = getLogger('topics-list');
 

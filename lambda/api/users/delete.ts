@@ -2,12 +2,12 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { CognitoIdentityProviderClient, AdminDisableUserCommand } from '@aws-sdk/client-cognito-identity-provider';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, NotFoundError, AuthorizationError, BadRequestError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
-import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
-import { adminOnly } from '../../../../layers/common/nodejs/middleware/rbac';
-import { validatePath } from '../../../../layers/common/nodejs/utils/validation';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, NotFoundError, AuthorizationError, BadRequestError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '@common/utils/response';
+import { authenticate } from '@common/middleware/auth';
+import { adminOnly } from '@common/middleware/rbac';
+import { validatePath } from '@common/utils/validation';
 
 const logger = getLogger('users-delete');
 
@@ -26,7 +26,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const requestId = context.requestId;
+  const requestId = context.awsRequestId;
   logger.info('Delete user request', { requestId });
 
   try {

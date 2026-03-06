@@ -3,8 +3,8 @@ import {
   InvokeModelCommand,
   InvokeModelWithResponseStreamCommand,
 } from '@aws-sdk/client-bedrock-runtime';
-import { logger } from '../utils/logger';
-import { ExternalServiceError } from '../utils/errors';
+import { logger } from '@common/utils/logger';
+import { ExternalServiceError } from '@common/utils/errors';
 
 /**
  * Bedrock client singleton

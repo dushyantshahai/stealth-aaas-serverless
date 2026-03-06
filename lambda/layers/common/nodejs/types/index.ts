@@ -221,7 +221,8 @@ export interface EnvironmentConfig {
   SQS_QUEUE_PREFIX: string;
 }
 
-export default {
+// Re-export all types for convenience
+export type {
   BaseEntity,
   Institute,
   User,

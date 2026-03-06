@@ -14,7 +14,11 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "baseUrl": "./",
+    "paths": {
+      "@common/*": ["lambda/layers/common/nodejs/*"]
+    }
   },
   "include": ["lambda/**/*", "cdk/**/*", "scripts/**/*"],
   "exclude": ["node_modules", "dist", "cdk.out"]

@@ -15,7 +15,7 @@ import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { SQSClient, SendMessageCommand, DeleteMessageCommand } from '@aws-sdk/client-sqs';
-import { getLogger } from '../layers/common/nodejs/utils/logger';
+import { getLogger } from '@common/utils/logger';
 import { extractPdfText, extractTextFromPages } from './utils/pdf-text-extractor';
 import { extractToc } from './toc-extractor';
 import { createPageAwareChunks } from './text-chunker';

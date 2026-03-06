@@ -1,10 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, QueryCommand as DocQueryCommand } from '@aws-sdk/lib-dynamodb';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, NotFoundError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse } from '../../../../layers/common/nodejs/utils/response';
-import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, NotFoundError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse } from '@common/utils/response';
+import { authenticate } from '@common/middleware/auth';
 import { z } from 'zod';
 
 const logger = getLogger('users-list');
@@ -30,7 +30,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  const requestId = context.requestId;
+  const requestId = context.awsRequestId;
   logger.info('List users request', { requestId });
 
   try {

@@ -2,11 +2,11 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda
 import { DynamoDBDocumentClient, PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import { getLogger } from '../../../../layers/common/nodejs/utils/logger';
-import { ValidationError, AuthorizationError, NotFoundError } from '../../../../layers/common/nodejs/utils/errors';
-import { createSuccessResponse, createErrorResponse, createCreatedResponse } from '../../../../layers/common/nodejs/utils/response';
-import { validateBody, validatePath } from '../../../../layers/common/nodejs/utils/validation';
-import { authenticate } from '../../../../layers/common/nodejs/middleware/auth';
+import { getLogger } from '@common/utils/logger';
+import { ValidationError, AuthorizationError, NotFoundError } from '@common/utils/errors';
+import { createSuccessResponse, createErrorResponse, createCreatedResponse } from '@common/utils/response';
+import { validateBody, validatePath } from '@common/utils/validation';
+import { authenticate } from '@common/middleware/auth';
 import { z } from 'zod';
 
 const logger = getLogger('books-create');

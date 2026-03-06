@@ -8,8 +8,8 @@ import {
   HeadObjectCommand,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { logger } from '../utils/logger';
-import { ExternalServiceError } from '../utils/errors';
+import { logger } from '@common/utils/logger';
+import { ExternalServiceError } from '@common/utils/errors';
 
 /**
  * S3 client singleton
@@ -125,7 +125,7 @@ export async function getFile(
 
     // Convert stream to buffer
     const chunks: Uint8Array[] = [];
-    for await (const chunk of stream) {
+    for await (const chunk of stream as any) {
       chunks.push(chunk);
     }
     return Buffer.concat(chunks);

@@ -16,8 +16,8 @@ import {
   UpdateCommandInput,
   DeleteCommandInput,
 } from '@aws-sdk/lib-dynamodb';
-import { logger } from '../utils/logger';
-import { DatabaseError } from '../utils/errors';
+import { logger } from '@common/utils/logger';
+import { DatabaseError } from '@common/utils/errors';
 
 /**
  * DynamoDB client singleton

@@ -39,13 +39,13 @@ export const schemas = {
   instituteId: z.string().min(1, 'Institute ID is required'),
 
   // User role
-  userRole: z.enum(['Admin', 'Professor', 'Student'], {
+  userRole: z.enum(['Admin', 'Professor', 'Student'] as const, {
     errorMap: () => ({ message: 'Invalid user role' }),
   }),
 
   // Book status
   bookStatus: z.enum(
-    ['UPLOADED', 'PROCESSING', 'PROCESSED', 'FAILED'],
+    ['UPLOADED', 'PROCESSING', 'PROCESSED', 'FAILED'] as const,
     {
       errorMap: () => ({ message: 'Invalid book status' }),
     }
@@ -53,7 +53,7 @@ export const schemas = {
 
   // MCQ difficulty
   mcqDifficulty: z
-    .enum(['Easy', 'Medium', 'Hard'], {
+    .enum(['Easy', 'Medium', 'Hard'] as const, {
       errorMap: () => ({ message: 'Invalid difficulty level' }),
     })
     .optional(),
@@ -82,7 +82,7 @@ export function validateInput<T>(
     return schema.parse(data);
   } catch (error) {
     if (error instanceof ZodError) {
-      const details = error.errors.map((e) => ({
+      const details = error.issues.map((e) => ({
         path: e.path.join('.'),
         message: e.message,
       }));
