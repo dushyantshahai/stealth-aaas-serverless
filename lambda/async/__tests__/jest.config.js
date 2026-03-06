@@ -1,8 +1,12 @@
 module.exports = {
+  preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>'],
   testMatch: ['**/*.test.ts'],
   moduleFileExtensions: ['ts', 'js', 'json'],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest'
+  },
   collectCoverageFrom: [
     '../utils/pdf-text-extractor.ts',
     '../toc-extractor.ts',

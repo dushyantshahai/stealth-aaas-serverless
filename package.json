@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
+    "@types/aws-lambda": "^8.10.161",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.3.5",
     "@types/uuid": "^10.0.0",
